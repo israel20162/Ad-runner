@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int                  @id @default(autoincrement())
+  email              String               @unique
+  password           String
+  username           String               @unique
+  Ads                Ad[]
+  // Add more user profile fields as needed (name, bio, profile picture URL, etc.)
+  SocialMediaAccount SocialMediaAccount[]
+}
+
+model Ad {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  imageUrl    String?
+  // Add fields for ad details (budget, target audience, etc.)
+  createdBy   Int
+  createdAt   DateTime @default(now())
+
+  author    User        @relation(fields: [createdBy], references: [id])
+  Promotion Promotion[]
+}
+
+model SocialMediaAccount {
+  id       Int    @id @default(autoincrement())
+  platform String
+  username String
+  userId   Int
+  // Add fields for access tokens or platform-specific information
+
+  user      User        @relation(fields: [userId], references: [id])
+  Promotion Promotion[]
+}
+
+model Promotion {
+  id          Int       @id @default(autoincrement())
+  adId        Int
+  socialId    Int
+  status      String
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  price       Int
+  // Add fields for tracking promotion details (metrics, reports, etc.)
+
+  ad          Ad                 @relation(fields: [adId], references: [id])
+  socialMedia SocialMediaAccount @relation(fields: [socialId], references: [id])
+}
