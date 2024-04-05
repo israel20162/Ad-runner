@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@solid-primitives/storage':
+    specifier: ^3.1.0
+    version: 3.1.0(solid-js@1.8.11)
   '@solidjs/router':
     specifier: ^0.13.1
     version: 0.13.1(solid-js@1.8.11)
@@ -956,6 +959,15 @@ packages:
       solid-js: 1.8.11
     dev: true
 
+  /@solid-primitives/storage@3.1.0(solid-js@1.8.11):
+    resolution: {integrity: sha512-mJYXyZGPVkmNX9vve3U6oY5Qa0klaPZWyBs2+pxUEhi7XzKGIIMWSB2CQ+5mZ0EmkfykQiPwQJs6o6OxTKPVIQ==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.3(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
   /@solid-primitives/styles@0.0.111(solid-js@1.8.11):
     resolution: {integrity: sha512-1mBxOGAPXmfD5oYCvqjKBDN7SuNjz2qz7RdH7KtsuNLQh6lpuSKadtHnLvru0Y8Vz1InqTJisBIy/6P5kyDmPw==}
     peerDependencies:
@@ -973,6 +985,14 @@ packages:
     dependencies:
       solid-js: 1.8.11
     dev: true
+
+  /@solid-primitives/utils@6.2.3(solid-js@1.8.11):
+    resolution: {integrity: sha512-CqAwKb2T5Vi72+rhebSsqNZ9o67buYRdEJrIFzRXz3U59QqezuuxPsyzTSVCacwS5Pf109VRsgCJQoxKRoECZQ==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      solid-js: 1.8.11
+    dev: false
 
   /@solidjs/router@0.13.1(solid-js@1.8.11):
     resolution: {integrity: sha512-Rz5Lf0ssWMuN+Wm2GFO0vwZoO/KSwYFSuCUzWrRAvje5M0ZYZrMk5FZxuzdJT+zg8KuqWJQlRALks5E0r+FjAA==}

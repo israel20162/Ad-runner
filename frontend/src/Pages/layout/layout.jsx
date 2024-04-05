@@ -1,15 +1,19 @@
-import { A } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
+import { useUserContext } from "../../store/userContext";
+import ProfileIcon from "../../components/profileIcon";
+import { useNavigate } from "@solidjs/router";
 
 function Layout(props) {
     const [showSidebar, setShowSidebar] = createSignal(false);
 
     const toggleSidebar = () => setShowSidebar(prev => !prev);
+    const [state] = useUserContext()
+   
 
     return (
         <>
-        <div class="flex flex-col gap-8">
-            {/* <nav class="w-24 flex h-full flex-col items-center bg-teal-500 text- dark:bg-gray-800 py-4">
+            <div class="flex flex-col gap-8">
+                {/* <nav class="w-24 flex h-full flex-col items-center bg-teal-500 text- dark:bg-gray-800 py-4">
 
                 <div>
 
@@ -143,8 +147,8 @@ function Layout(props) {
                 </div>
 
             </nav> */}
-            {/* Sidebar (Optional) */}
-            {/* <Show when={showSidebar()}>
+                {/* Sidebar (Optional) */}
+                {/* <Show when={showSidebar()}>
                 <div class="fixed inset-y-0 left-0 w-64  text-white h-screen overflow-y-auto ">
                    Sidebar content (navigation links, etc.) 
                     <button class="absolute top-4 right-4 focus:outline-none" onclick={toggleSidebar}>
@@ -157,30 +161,35 @@ function Layout(props) {
                     <div class="container mx-auto px-4 flex items-center justify-between">
                         <h1 class="text-white text-xl font-semibold">AdRun</h1>
                         <nav>
-                            <ul class="flex space-x-4">
-                                <li><a href="#" class="text-white hover:text-teal-300">Home</a></li>
+                            <ul class="flex items-center space-x-8">
+                                <li><a href="/" class="text-white hover:text-teal-300">Home</a></li>
+                                <li><a href="/dashboard" class="text-white hover:text-teal-300">Dashboard</a></li>
                                 <li><a href="#" class="text-white hover:text-teal-300">Ads</a></li>
                                 <li><a href="#" class="text-white hover:text-teal-300">About</a></li>
                                 <li><a href="#" class="text-white hover:text-teal-300">Contact</a></li>
+                               {!state.isLoggedIn ? <li class="ml-16 flex gap-2">
+                                    <a href="/login" class="text-white hover:text-teal-300">Login</a>
+                                    <a href="/register" class="text-white hover:text-teal-300">Register</a>
+                                </li> : <ProfileIcon name={state.user.username} />}
                             </ul>
                         </nav>
                     </div>
                 </header>
 
 
-            {/* Main Content Area */}
-            <div class="h-screen relative">
-                {/* Header */}
-                {/* <header class="bg-teal-500 shadow-sm py-4 px-4 flex justify-between items-center text-white">
+                {/* Main Content Area */}
+                <div class="h-screen relative">
+                    {/* Header */}
+                    {/* <header class="bg-teal-500 shadow-sm py-4 px-4 flex justify-between items-center text-white">
                     <h1 class="text-xl font-bold">Your Website Name</h1>
                     <button class="focus:outline-none" onClick={toggleSidebar}>
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16v12H4zm2-2a2 2 0 10-4 0 2 2 0 004 0z"></path></svg>
                     </button>
                 </header> */}
 
-                {/* Main Content */}
-                <main class="">
-                    {props.children}
+                    {/* Main Content */}
+                    <main class="">
+                        {props.children}
                         <div class="bg-teal-800  py-6">
                             <div class="container mx-auto px-4">
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -217,15 +226,15 @@ function Layout(props) {
                                 <p class="text-gray-300 text-center mt-8">© 2024 AdRun. All rights reserved.</p>
                             </div>
                         </div>
-                </main>
+                    </main>
 
-                {/* Footer (Optional) */}
-              
-                
+                    {/* Footer (Optional) */}
+
+
+                </div>
+
             </div>
-            
-        </div>
-            </>
+        </>
     );
 }
 

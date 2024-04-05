@@ -13,10 +13,10 @@ function Home() {
     };
     return (
         <div class=" flex flex-col  md:gap-20">
-            <section>
+            <div>
                 <h1 class="text-4xl text-center font-semibold">Welcome to AdRun</h1>
                 <p class="text-gray-600 text-center">The best platform for running ads!</p>
-            </section>
+            </div>
             <section class={heroSectionVisible() ? "md:h-full md:flex md:flex-col items-center my-12 md:my-" : "h-0"}>
                 <div class="md:grid grid-cols-1 md:grid-cols-2 md:gap-8">
                     <div class="flex flex-col md:space-y-8 space-y-4 px-4">
@@ -34,10 +34,10 @@ function Home() {
                         <p class="text-xl text-gray-600 text-center mb-4"></p>
                         <div class="flex justify-start">
                             <button class="bg-teal-500 hover:bg-teal-700 text-white font-bold text-sm md:text-base whitespace-nowrap py-4 md:py-2 px-4 rounded shadow-md mr-4" >
-                                Sign Up as Advertiser
+                                <a href="/register">                                Sign Up as Advertiser</a>
                             </button>
                             <button class="bg-gray-50 hover:bg-gray-100 text-teal-500 font-bold text-sm md:text-base whitespace-nowrap py-4 md:py-2 px-4 rounded shadow-md" >
-                                Sign Up as Promoter
+                               <a href="/register">Sign Up as Promoter</a> 
                             </button>
                         </div>
                         <button class="fixed bottom-4 right-4 focus:outline-none" onClick={scrollToTop}>
