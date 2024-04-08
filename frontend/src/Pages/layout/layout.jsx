@@ -12,7 +12,7 @@ function Layout(props) {
 
     return (
         <>
-            <div class="flex flex-col gap-8">
+            <div class="flex flex-col gap-">
                 {/* <nav class="w-24 flex h-full flex-col items-center bg-teal-500 text- dark:bg-gray-800 py-4">
 
                 <div>
@@ -170,7 +170,7 @@ function Layout(props) {
                                {!state.isLoggedIn ? <li class="ml-16 flex gap-2">
                                     <a href="/login" class="text-white hover:text-teal-300">Login</a>
                                     <a href="/register" class="text-white hover:text-teal-300">Register</a>
-                                </li> : <ProfileIcon name={state.user.username} />}
+                                </li> : <ProfileIcon name={state.user?.username} />}
                             </ul>
                         </nav>
                     </div>
@@ -188,7 +188,7 @@ function Layout(props) {
                 </header> */}
 
                     {/* Main Content */}
-                    <main class="">
+                    <main class="!relative">
                         {props.children}
                         <div class="bg-teal-800  py-6">
                             <div class="container mx-auto px-4">

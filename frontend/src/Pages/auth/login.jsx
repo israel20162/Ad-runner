@@ -25,7 +25,7 @@ function Login() {
             }
 
             const data = await response.json();
-            console.log(data);
+            // console.log(data)
             //saves user data to store
             LoginUser(data)
             const token = data.token; // Assuming the server sends a token in response

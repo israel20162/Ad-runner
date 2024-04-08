@@ -50,6 +50,7 @@ router.post('/login', async (req, res) => {
         //        
         res.json({
             id: user.id,
+            email:user.email,
             username: user.username,
             token: token
             // Add other relevant user data as needed (excluding password)
@@ -98,8 +99,8 @@ router.post('/check-email', async (req, res) => {
     const user = await prisma.user.findUnique({
         where: {
             email: email
-        }
+        } 
     });
-    res.json( !!user );
+    res.json( !!user ); 
 });
 export default router;

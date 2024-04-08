@@ -1,12 +1,13 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 import { Router ,Route} from "@solidjs/router";
-import { UserContextProvider } from './store/userContext';
 import Login from "./Pages/auth/login";
 import Register from "./Pages/auth/register";
-import Home from "./Pages/home";
+import Home from "./Pages/Home";
 import Dashboard from "./Pages/Dashboard";
 import Onboarding from "./Pages/auth/OnBoarding";
+import PromoterDashboard from './Pages/User/PromoterDashboard';
+import PromoterDashboard2 from './Pages/User/testdash';
 import './index.css'
 import App from './App';
 
@@ -26,6 +27,8 @@ render(() => <Router root={App}>
   <Route path="/dashboard" component={Dashboard} />
   <Route path="/advertiser-signup" component={Onboarding} />
   <Route path="/promoter-signup" component={Onboarding} />
+  <Route path="/promoter/dashboard" component={PromoterDashboard} />
+  <Route path="/test" component={PromoterDashboard2} />
  
 
 

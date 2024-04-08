@@ -21,6 +21,30 @@ model User {
   Ads                Ad[]
   // Add more user profile fields as needed (name, bio, profile picture URL, etc.)
   SocialMediaAccount SocialMediaAccount[]
+  // Existing advertiser/promoter field (optional)
+  userType           String?
+  //Promoter specific information (optional, nested)
+  promoter           Promoter?
+  advertiser         Advertiser?
+}
+
+model Promoter {
+  id                 Int        @id @default(autoincrement())
+  userId             Int        @unique
+  fullName           String
+  contactInfo        String?
+  bio                String?
+  profilePicture     String?
+  //  Promotion details
+  promotionMethods   Json?
+  targetAudience     Json?
+  previousExperience String?
+  promotionLinks     String?
+  // Optional payment information (consider security best practices)
+  paymentMethod      String?
+  // Connect to User model (one-to-one)
+  user               User       @relation(fields: [userId], references: [id])
+  campaigns          Campaign[]
 }
 
 model Ad {
@@ -34,6 +58,66 @@ model Ad {
 
   author    User        @relation(fields: [createdBy], references: [id])
   Promotion Promotion[]
+}
+
+model Advertiser {
+  id             Int     @id @default(autoincrement())
+  userId         Int     @unique
+  companyEmail   String  @unique
+  password       String
+  firstName      String?
+  lastName       String?
+  companyName    String?
+  contact        String?
+  business_type  String?
+  companyWebsite String?
+
+  user         User       @relation(fields: [userId], references: [id])
+  campaigns    Campaign[]
+  advertiserId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Campaign {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  startDate DateTime?
+  endDate   DateTime?
+  status    CampaignStatus
+
+  description   String?
+  imageUrl      String?
+  videoUrl      String?
+  clickUrl      String?
+  promoterLimit Int?
+  filters       Json?
+  platform      Json?
+  promoters     Promoter[]
+
+  // ... other relevant campaign fields
+
+  creator   Advertiser @relation(fields: [creatorId], references: [id])
+  creatorId Int
+
+  impressions Int?
+  clicks      Int?
+  conversions Int?
+  views       Int?
+  likes       Int?
+  earnings    Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CampaignStatus {
+  Draft
+  Active
+  Completed
+  Paused
+  Cancelled
 }
 
 model SocialMediaAccount {

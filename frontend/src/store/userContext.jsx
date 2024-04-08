@@ -25,7 +25,7 @@ export function UserContextProvider(props) {
 
             LogoutUser: function () {
 
-                setState("user", {});
+                setState("user", null);
                 setState("isLoggedIn", false);
 
             },
