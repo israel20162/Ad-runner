@@ -1,14 +1,14 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
-import { Router ,Route} from "@solidjs/router";
+import { Router, Route } from "@solidjs/router";
 import Login from "./Pages/auth/login";
 import Register from "./Pages/auth/register";
 import Home from "./Pages/Home";
 import Dashboard from "./Pages/Dashboard";
 import Onboarding from "./Pages/auth/OnBoarding";
-import PromoterDashboard from './Pages/User/PromoterDashboard';
-import PromoterDashboard2 from './Pages/User/testdash';
-import './index.css'
+import PromoterDashboard from "./Pages/User/promoter/PromoterDashboard";
+import AdvertiserDashboard from './Pages/User/advertiser/AdvertiserDashboard';
+import './index.css';
 import App from './App';
 
 const root = document.getElementById('root');
@@ -28,8 +28,9 @@ render(() => <Router root={App}>
   <Route path="/advertiser-signup" component={Onboarding} />
   <Route path="/promoter-signup" component={Onboarding} />
   <Route path="/promoter/dashboard" component={PromoterDashboard} />
-  <Route path="/test" component={PromoterDashboard2} />
- 
+  <Route path="/advertiser/dashboard" component={AdvertiserDashboard} />
+
+
 
 
 

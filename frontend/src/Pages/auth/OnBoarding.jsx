@@ -18,6 +18,13 @@ function Onboarding() {
         email: state.user?.email || '',
         // Add other fields as needed (advertiser/promoter)
         fullName: "",
+        firstName: "",
+        lastName: "",
+        companyEmail: "",
+        companyName: "",
+        businessType: "",
+        companyWebsite: "",
+
         contactInfo: "",
         bio: "",
         profilePicture: "",
@@ -31,41 +38,78 @@ function Onboarding() {
 
     const handleUserTypeChange = (e) => setUserType(e.target.value);
 
-    
+
     const handleChange = (e) => {
         setFormData(e.target.name, e.target.value);
     };
 
-   
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({}); // Clear previous errors
         setIsLoading(true);
 
-        try {
-            const response = await fetch('http://localhost:5000/api/promoter/promoter-signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+        switch (userType()) {
+            case 'promoter':
+                try {
+                    const response = await fetch('http://localhost:5000/api/promoter/promoter-signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    });
 
-            if (!response.ok) {
-                throw new Error('Failed to save promoter data');
-            }
+                    if (!response.ok) {
+                        throw new Error('Failed to save promoter data');
+                    }
 
-            const responseData = await response.json();
-            console.log('Promoter data saved:', responseData);
-        } catch (error) {
-            console.error('Error saving promoter data:', error.message);
+                    const responseData = await response.json();
+                    console.log('Promoter data saved:', responseData);
+                } catch (error) {
+                    console.error('Error saving promoter data:', error.message);
+                }
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                // Handle successful submission (redirect, etc.)
+
+                setIsLoading(false);
+
+                break;
+            case 'advertiser':
+                try {
+                    const response = await fetch('http://localhost:5000/api/advertiser/advertiser-signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to save advertiser data');
+                    }
+
+                    const responseData = await response.json();
+                    console.log('advertiser data saved:', responseData);
+                } catch (error) {
+                    console.log(error);
+                    console.error('Error saving advertiser data:', error.message);
+                }
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                // Handle successful submission (redirect, etc.)
+
+                setIsLoading(false);
+
+                break;
+
+            default:
+                break;
         }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // Handle successful submission (redirect, etc.)
-       
-        setIsLoading(false);
+      
     };
     const PromotionMethods = () => {
 
@@ -87,16 +131,17 @@ function Onboarding() {
                 <h3 class="text-lg font-bold mb-4">Promotion Methods</h3>
                 <div class="grid grid-cols-2">
                     <For each={promotionMethods} fallback={<div>Loading...</div>}>
-                        {(method) => (<label class="inline-flex items-center mb-2">
-                            <input
-                                type="checkbox"
-                                value={method}
-                                onChange={handleMethodChange}
-                                checked={selectedMethods().includes(method)}
-                                class="form-checkbox h-5 w-5 text-teal-500"
-                            />
-                            <span class="ml-2">{method}</span>
-                        </label>)}
+                        {(method) => (
+                            <label class="inline-flex items-center mb-2">
+                                <input
+                                    type="checkbox"
+                                    value={method}
+                                    onChange={handleMethodChange}
+                                    checked={selectedMethods().includes(method)}
+                                    class="form-checkbox h-5 w-5 text-teal-500"
+                                />
+                                <span class="ml-2">{method}</span>
+                            </label>)}
 
                     </For>
 
@@ -125,18 +170,21 @@ function Onboarding() {
             <div>
                 <h3 class="text-lg font-bold mb-4">Target Audience</h3>
                 <div className="grid grid-cols-2">
-                    {targetAudiences.map((option) => (
-                        <label class="inline-flex items-center mb-2" key={option}>
-                            <input
-                                type="checkbox"
-                                value={option}
-                                checked={audience().includes(option)}
-                                onChange={handleCheckboxChange}
-                                class="form-checkbox h-5 w-5 text-teal-500"
-                            />
-                            <span class="ml-2">{option}</span>
-                        </label>
-                    ))}
+                    <For each={targetAudiences} fallback={<div>Loading...</div>}>
+                        {(option) => (
+                            <label class="inline-flex items-center mb-2" key={option}>
+                                <input
+                                    type="checkbox"
+                                    value={option}
+                                    checked={audience().includes(option)}
+                                    onChange={handleCheckboxChange}
+                                    class="form-checkbox h-5 w-5 text-teal-500"
+                                />
+                                <span class="ml-2">{option}</span>
+                            </label>
+                        )}
+                    </For>
+
                 </div>
 
             </div>
@@ -217,26 +265,73 @@ function Onboarding() {
                             {/* Other fields based on user type */}
                             {userType() === "advertiser" && (
                                 <>
-                                <div class="flex justify-between">
+                                    <div class="md:flex justify-between gap-4">
                                         <input
                                             type="text"
                                             class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-teal-500 focus:ring-1"
-                                            placeholder="Full Name"
-                                            name="fullName"
+                                            placeholder="First Name"
+                                            name="firstName"
+                                            required
                                             value={formData.firstName}
                                             onChange={handleChange}
                                         />
                                         <input
                                             type="text"
                                             class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-teal-500 focus:ring-1"
-                                            placeholder="Full Name"
-                                            name="fullName"
+                                            placeholder="Last Name"
+                                            name="lastName"
+                                            required
                                             value={formData.lastName}
                                             onChange={handleChange}
                                         />
-                                </div>
-                                    
+                                    </div>
+                                    <input
+                                        type="text"
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-teal-500 focus:ring-1"
+                                        placeholder="Contact"
+                                        name="contactInfo"
+                                        required
+                                        value={formData.contactInfo}
+                                        onChange={handleChange}
+                                    />
+                                    <input
+                                        type="text"
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-teal-500 focus:ring-1"
+                                        placeholder="Company Name"
+                                        name="companyName"
+                                        required
+                                        value={formData.companyName}
+                                        onChange={handleChange}
+                                    />
+                                    <input
+                                        type="email"
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-teal-500 focus:ring-1"
+                                        placeholder="Company Email "
+                                        name="companyEmail"
+                                        required
+                                        value={formData.companyEmail}
+                                        onChange={handleChange}
+                                    />
+                                    <input
+                                        type="text"
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-teal-500 focus:ring-1"
+                                        placeholder="Business Type"
+                                        name="businessType"
+                                        value={formData.businessType}
+                                        onChange={handleChange}
+                                    />
+                                    <input
+                                        type="text"
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-teal-500 focus:ring-1"
+                                        placeholder="Company Website "
+                                        name="companyWebsite"
+                                        value={formData.companyWebsite}
+                                        onChange={handleChange}
+                                    />
+
                                     {/* Add more advertiser-specific fields here */}
+
+
                                 </>
                             )}
 
@@ -295,7 +390,10 @@ function Onboarding() {
                                     </div>
                                 </>
                             )}
-
+                            <label class="flex items-center">
+                                <input required type="checkbox" class="form-checkbox h-4 w-4 text-teal-600" />
+                                <span class="ml-2 text-gray-700 text-sm">I agree to the <a href="#" class="text-teal-600 hover:underline">Terms and Conditions</a></span>
+                            </label>
                             <div className="flex justify-around">
                                 <button
                                     type="submit"
