@@ -50,4 +50,6 @@ router.get('/promoters/:userId', async (req, res) => {
         res.status(500).json({ error: 'An error occurred while fetching user data' });
     }
 })
+
+
 export default router;

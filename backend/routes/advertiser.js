@@ -55,4 +55,44 @@ router.get('/advertiser/:userId', async (req, res) => {
         res.status(500).json({ error: 'An error occurred while fetching user data' });
     }
 })
+
+router.post('/campaign/create', async (req, res) => {
+    try {
+        const { name,
+            startDate,
+            endDate,
+            imageUrl,
+            videoUrl,
+            promotionMethods,
+            targetAudience,
+            description,
+            pricePerMetric,
+            creatorId
+        } = req.body
+      console.log(startDate);
+        const campaign = await prisma.campaign.create({
+            data: {
+                name,
+                startDate:new Date(startDate),
+                endDate: new Date(endDate),
+                status:'Active',
+                creatorId,
+                platform:promotionMethods,
+                pricesPerMetric:pricePerMetric,
+                description,
+                imageUrl,
+                videoUrl,
+
+
+
+
+            }
+        })
+        res.status(200).json({ message: 'campaign created successfully' ,campaign})
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ message: 'Failed to create campaign' });
+    }
+
+})
 export default router;

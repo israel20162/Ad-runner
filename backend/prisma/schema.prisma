@@ -102,7 +102,7 @@ model Campaign {
 
   // ... other relevant campaign fields
 
-  creator   Advertiser @relation(fields: [creatorId], references: [id])
+  creator   Advertiser @relation(fields: [creatorId], references: [userId])
   creatorId Int
 
   impressions Int?
