@@ -39,16 +39,16 @@ router.post('/advertiser-signup', async (req, res) => {
 
 })
 router.get('/advertiser/:userId', async (req, res) => {
-    try {
+    try { 
         const { userId } = req.params;
 
         // Fetch user data with associated promoter info using Prisma
         const userData = await prisma.user.findUnique({
             where: { id: parseInt(userId) },
-            include: { promoter: true },
-        });
+          //  include: {  },
+        }); 
 
-        // Respond with the user data
+        // Respond with the use r data
         res.json(userData);
     } catch (error) {
         console.error('Error fetching user data:', error);
@@ -58,7 +58,8 @@ router.get('/advertiser/:userId', async (req, res) => {
 
 router.post('/campaign/create', async (req, res) => {
     try {
-        const { name,
+        const {
+            name,
             startDate,
             endDate,
             imageUrl,
@@ -67,9 +68,10 @@ router.post('/campaign/create', async (req, res) => {
             targetAudience,
             description,
             pricePerMetric,
-            creatorId
+            creatorId,
+            promoterLimit
         } = req.body
-      console.log(startDate);
+  
         const campaign = await prisma.campaign.create({
             data: {
                 name,
@@ -82,9 +84,8 @@ router.post('/campaign/create', async (req, res) => {
                 description,
                 imageUrl,
                 videoUrl,
-
-
-
+                promoterLimit,
+                targetAudience
 
             }
         })

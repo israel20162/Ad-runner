@@ -1,27 +1,25 @@
 import { createEffect, createSignal } from "solid-js";
 
-
+import { useUserContext } from "../../../store/userContext";
 
 
 
 export default function Dashboard() {
-    const [totalSpend] = createSignal(0);
-    const [impressions] = createSignal(0);
-    const [recentCampaigns] = createSignal([]);
+    const [state] = useUserContext();
+    const [advertiser, setAdvertiser] = createSignal([])
     createEffect(async () => {
         // Fetch data from your backend (replace with your API calls)
-        const response = await fetch('/api/advertiser/dashboard');
-        const data = await response.json();
+        const response = await fetch(`http://localhost:5000/api/advertiser/advertiser/${state.user?.id}`);
 
-        totalSpend(data.totalSpend.toFixed(2));
-        impressions(data.impressions);
-        recentCampaigns(data.campaigns);
+        const data = await response.json();
+console.log(data);
+        setAdvertiser(data)
     });
 
-    function CampaignRow({ name, status, budget, impressions }) {
+    function CampaignRow() {
         return (
             <tr class="text-gray-700 border-b hover:bg-gray-100">
-                <td class="px-4 py-2">{name}</td>
+                <td class="px-4 py-2"></td>
                 <td class="px-4 py-2">{status}</td>
                 <td class="px-4 py-2">{budget}</td>
                 <td class="px-4 py-2">{impressions}</td>
@@ -34,17 +32,17 @@ export default function Dashboard() {
             <include src="sidebar.jsx"></include>
 
             <div class="flex-1 p-8">
-                <h2 class="text-xl font-bold mb-6">Advertiser Dashboard</h2>
+                <h2 class="text-xl font-bold mb-6">Welcome ,<span class="text-teal-500">{ advertiser().username }</span> </h2>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
                     <div class="bg-white shadow-md rounded px-4 py-5">
                         <h3 class="text-base font-medium mb-2">Total Spend</h3>
-                        <p class="text-xl font-bold text-gray-800">$<span>{totalSpend()}</span></p>
+                        <p class="text-xl font-bold text-gray-800">$<span>{0}</span></p>
                     </div>
                     <div class="bg-white shadow-md rounded px-4 py-5">
                         <h3 class="text-base font-medium mb-2">Impressions</h3>
                         <p class="text-xl font-bold text-gray-800">
-                            <span>{impressions()}</span>
+                            <span>{0}</span>
                         </p>
                     </div>
                 </div>

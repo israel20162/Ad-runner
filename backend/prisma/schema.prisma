@@ -100,6 +100,8 @@ model Campaign {
   pricesPerMetric   Json?
   promoters         Promoter[]
 
+  targetAudience Json?
+
   // ... other relevant campaign fields
 
   creator   Advertiser @relation(fields: [creatorId], references: [userId])

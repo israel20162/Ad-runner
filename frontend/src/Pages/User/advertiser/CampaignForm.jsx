@@ -36,7 +36,8 @@ function CampaignForm() {
             'targetAudience': audience(),
             'description': description(),
             'pricePerMetric': prices,
-            creatorId: state.user?.id
+            'creatorId': state.user?.id,
+            'promoterLimit': promoterLimit()
 
         }
 
