@@ -227,7 +227,7 @@ function Onboarding() {
                             value={userType()}
                             onChange={handleUserTypeChange}
                         >
-                            <option value="select">Select...</option>
+                            <option disabled value="select">Select...</option>
                             <option value="advertiser">Advertiser</option>
                             <option value="promoter">Promoter</option>
                         </select>
@@ -410,7 +410,7 @@ function Onboarding() {
                                 <button
                                     type="submit"
                                     class="w-1/3 bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 focus:outline-none"
-                                    disabled={isLoading()}
+                                    disabled={isLoading() || !isSelected()}
                                 >
                                     {isLoading() ? "Loading..." : "Sign Up"}
                                 </button>

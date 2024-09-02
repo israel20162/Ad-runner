@@ -22,9 +22,6 @@ router.post('/advertiser-signup', async (req, res) => {
                 contact: contactInfo,
                 business_type: businessType,
                 companyWebsite
-
-
-
             },
             include: {
                 user: true // Include related user data in the response
@@ -39,14 +36,14 @@ router.post('/advertiser-signup', async (req, res) => {
 
 })
 router.get('/advertiser/:userId', async (req, res) => {
-    try { 
+    try {
         const { userId } = req.params;
 
         // Fetch user data with associated promoter info using Prisma
         const userData = await prisma.user.findUnique({
             where: { id: parseInt(userId) },
-          //  include: {  },
-        }); 
+            //  include: {  },
+        });
 
         // Respond with the use r data
         res.json(userData);
@@ -69,18 +66,19 @@ router.post('/campaign/create', async (req, res) => {
             description,
             pricePerMetric,
             creatorId,
-            promoterLimit
+            promoterLimit,
+            status
         } = req.body
-  
+
         const campaign = await prisma.campaign.create({
             data: {
                 name,
-                startDate:new Date(startDate),
+                startDate: new Date(startDate), 
                 endDate: new Date(endDate),
-                status:'Active',
+                status: status,
                 creatorId,
-                platform:promotionMethods,
-                pricesPerMetric:pricePerMetric,
+                platform: promotionMethods,
+                pricesPerMetric: pricePerMetric,
                 description,
                 imageUrl,
                 videoUrl,
@@ -89,11 +87,24 @@ router.post('/campaign/create', async (req, res) => {
 
             }
         })
-        res.status(200).json({ message: 'campaign created successfully' ,campaign})
+        res.status(200).json({ message: 'campaign created successfully', campaign })
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: 'Failed to create campaign' });
     }
 
 })
-export default router;
+router.get('/campaign/all', async (req, res) => {
+    try {
+        const campaigns = await prisma.campaign.findMany({
+            include: { creator: true }
+        })
+       
+        res.status(200).json(campaigns)
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ message: 'Failed to get campaign' });
+    }
+
+})
+export default router;  

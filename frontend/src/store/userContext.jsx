@@ -7,7 +7,7 @@ const initialState = {
     isLoggedIn: false
 };
 export const UserContext = createContext(initialState);
-const userStore = createStore({ user: props.user || {}, isLoggedIn: false })
+const userStore = createStore({ user: "user" || {}, isLoggedIn: false })
 
 
 export function UserContextProvider(props) {

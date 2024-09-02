@@ -16,14 +16,14 @@ const storage = new CloudinaryStorage({
         folder: 'adrun',
         allowedFormats: ['jpeg', 'png', 'jpg'],
     }
-});
+}); 
 const upload = multer({ storage });
 
 router.post('/image-upload', upload.single('image'), async (req, res) => {
     try {
         res.status(200).json({ filePath: req.file.path });
     } catch (error) {
-        res.status(401).json(error)
+        res.status(401).json(error) 
     }
 
 })

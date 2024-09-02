@@ -4,7 +4,7 @@ import { Router, Route } from "@solidjs/router";
 import Login from "./Pages/auth/login";
 import Register from "./Pages/auth/register";
 import Home from "./Pages/Home";
-import Dashboard from "./Pages/Dashboard";
+// import Dashboard from "./Pages/Dashboard";
 import Onboarding from "./Pages/auth/OnBoarding";
 import PromoterDashboard from "./Pages/User/promoter/PromoterDashboard";
 import AdvertiserDashboard from './Pages/User/advertiser/AdvertiserDashboard';
@@ -19,20 +19,18 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <Router root={App}>
+render(() =>
+  <Router root={App}>
+    <Route path="/" component={Home} />
+    <Route path="/login" component={Login} />
+    <Route path="/register" component={Register} />
+    {/* <Route path="/dashboard" component={Dashboard} /> */}
+    <Route path="/advertiser-signup" component={Onboarding} />
+    <Route path="/promoter-signup" component={Onboarding} />
+    <Route path="/promoter/dashboard" component={PromoterDashboard} />
+    <Route path="/advertiser/dashboard" component={AdvertiserDashboard} />
+  </Router>,
 
-  <Route path="/" component={Home} />
-  <Route path="/login" component={Login} />
-  <Route path="/register" component={Register} />
-  <Route path="/dashboard" component={Dashboard} />
-  <Route path="/advertiser-signup" component={Onboarding} />
-  <Route path="/promoter-signup" component={Onboarding} />
-  <Route path="/promoter/dashboard" component={PromoterDashboard} />
-  <Route path="/advertiser/dashboard" component={AdvertiserDashboard} />
+  root
 
-
-
-
-
-
-</Router>, root);
+);

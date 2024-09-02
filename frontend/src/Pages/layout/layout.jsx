@@ -20,7 +20,7 @@ function Layout(props) {
                         <nav>
                             <ul class="flex items-center space-x-8">
                                 <li><a href="/" class="text-white hover:text-teal-300">Home</a></li>
-                                <li><a href="/dashboard" class="text-white hover:text-teal-300">Dashboard</a></li>
+                                <li><a href="/advertiser/dashboard" class="text-white hover:text-teal-300">Dashboard</a></li>
                                 <li><a href="#" class="text-white hover:text-teal-300">Ads</a></li>
                                 <li><a href="#" class="text-white hover:text-teal-300">About</a></li>
                                 <li><a href="#" class="text-white hover:text-teal-300">Contact</a></li>
@@ -79,7 +79,8 @@ function Layout(props) {
                         </div>
                     </main>
 
-                    {/* Footer (Optional) */}
+               
+               
 
 
                 </div>

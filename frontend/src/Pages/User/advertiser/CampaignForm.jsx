@@ -4,6 +4,10 @@ import Tooltip from "../../../components/tooltip";
 import ImageUpload from "../../../components/imageupload";
 import toast, { Toaster } from 'solid-toast';
 import { useUserContext } from "../../../store/userContext";
+import { BiddingSection } from "./FormComponents/BiddingSection";
+import { CampaignStatus } from "./FormComponents/CampaignStatus";
+import { TargetAudience } from "./FormComponents/TargetAudience";
+import { PromotionMethods } from "./FormComponents/PromotionMethods";
 
 function CampaignForm() {
     const [state] = useUserContext();
@@ -19,7 +23,7 @@ function CampaignForm() {
     const [audience, setAudience] = createSignal([]);
     const [metrics, setMetrics] = createStore(['impressions', 'clicks', 'conversions', 'views', 'likes'])
     const [prices, setPrices] = createStore([])
-
+    const [status, setStatus] = createSignal()
     // const [targetAudience] = createStore(""); // Replace with your audience selection mechanism
     const [description, setDescription] = createSignal("");
 
@@ -37,7 +41,8 @@ function CampaignForm() {
             'description': description(),
             'pricePerMetric': prices,
             'creatorId': state.user?.id,
-            'promoterLimit': promoterLimit()
+            'promoterLimit': promoterLimit(),
+            'status': status()
 
         }
 
@@ -57,143 +62,10 @@ function CampaignForm() {
 
 
     };
-    const PromotionMethods = () => {
+    
+   
 
-        const promotionMethods = ['Facebook', 'X (Twitter)', 'Instagram', 'TikTok', 'Whatsapp', 'Blog', 'All']
-
-        const handleMethodChange = (e) => {
-            const method = e.target.value;
-            const updatedMethods = selectedMethods();
-            if (updatedMethods.includes(method)) {
-                updatedMethods.splice(updatedMethods.indexOf(method), 1);
-            } else {
-                updatedMethods.push(method);
-            }
-            setSelectedMethods(updatedMethods);
-        };
-
-        return (
-            <div>
-
-                <div class="grid grid-cols-2">
-                    <For each={promotionMethods} fallback={<div>Loading...</div>}>
-                        {(method) => (
-                            <label class="inline-flex items-center mb-2">
-                                <input
-                                    type="checkbox"
-                                    value={method}
-                                    onChange={handleMethodChange}
-                                    checked={selectedMethods().includes(method)}
-                                    class="form-checkbox h-5 w-5 text-teal-500"
-                                />
-                                <span class="ml-2">{method}</span>
-                            </label>)}
-
-                    </For>
-
-                </div>
-
-                {/* Add more social media platforms as needed */}
-            </div>
-        );
-    };
-    const TargetAudience = () => {
-
-        const targetAudiences = ["Male", "Female", "18-24", "25-34", "35-44", "45-54", "55-64", "65+", "All"];
-
-        const handleCheckboxChange = (e) => {
-            const value = e.target.value;
-            const updatedAudience = audience();
-            if (updatedAudience.includes(value)) {
-                updatedAudience.splice(updatedAudience.indexOf(value), 1);
-            } else {
-                updatedAudience.push(value);
-            }
-            setAudience(updatedAudience);
-        };
-
-        return (
-            <div>
-
-                <div className="grid grid-cols-2">
-                    <For each={targetAudiences} fallback={<div>Loading...</div>}>
-                        {(option) => (
-                            <label class="inline-flex items-center mb-2" key={option}>
-                                <input
-                                    type="checkbox"
-                                    value={option}
-                                    checked={audience().includes(option)}
-                                    onChange={handleCheckboxChange}
-                                    class="form-checkbox h-5 w-5 text-teal-500"
-                                />
-                                <span class="ml-2">{option}</span>
-                            </label>
-                        )}
-                    </For>
-
-                </div>
-
-            </div>
-        );
-    };
-
-
-    const BiddingSection = (props) => {
-        const [selectedMetric, setSelectedMetric] = createSignal(props.metrics[0].value); // Select first option by default
-        const [bidAmount, setBidAmount] = createSignal(0);
-
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            props.onSubmit((prev) => [...prev, { metric: selectedMetric(), bid: bidAmount() }])
-        };
-
-        return (
-            <div class="  rounded  py-6 mb-8">
-                <h3 class="text-base font-medium mb-4">Bidding</h3>
-                <form onsubmit={handleSubmit}>
-                    <div class="mb-4">
-                        <label for="metric" class="block text-sm font-medium text-gray-700 mb-2">
-                            Bidding Metric
-                        </label>
-                        <select
-                            id="metric"
-                            class="block w-full capitalize rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            value={selectedMetric()}
-                            onchange={(e) => setSelectedMetric(e.target.value)}
-                        >
-                            <For each={props.metrics}>
-
-                                {(option) => (
-                                    <option class="capitalize" key={option.value} value={option}>
-                                        {option}
-                                    </option>
-                                )}
-                            </For>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="bidAmount" class="block text-sm font-medium text-gray-700 mb-2">
-                            Bid Amount (&#8358; per {selectedMetric()})
-                        </label>
-                        <input
-                            type="number"
-                            id="bidAmount"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 rounded-md w-full sm:text-sm px-3 py-2 border border-gray-300"
-                            value={bidAmount()}
-                            onInput={(e) => setBidAmount(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        class="inline-flex items-center px-4 py-2 rounded-md shadow-sm focus:outline-none sm:text-sm font-medium bg-indigo-500 text-white hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Set Bidding
-                    </button>
-                </form>
-            </div>
-        );
-    }
+   
 
 
 
@@ -261,6 +133,7 @@ function CampaignForm() {
                     <input
                         type="url"
                         id="imageUrl"
+                        required
                         class="shadow-sm focus:ring-indigo-500 w-full focus:border-indigo-500 rounded-md sm:text-sm px-3 py-2 border border-gray-300"
                         value={imageUrl()}
                         oninput={(e) => setImageUrl(e.target.value)}
@@ -289,13 +162,13 @@ function CampaignForm() {
                 <label for="targetAudience" class="block text-sm font-medium text-gray-700 mb-2">
                     Promotion Methods
                 </label>
-                <PromotionMethods />
+                <PromotionMethods selectedMethods={selectedMethods()} setSelectedMethods={setSelectedMethods} />
             </div>
             <div class="mb-4">
                 <label for="targetAudience" class="block text-sm font-medium text-gray-700 mb-2">
                     Target Audience
                 </label>
-                <TargetAudience />
+                <TargetAudience audience={audience()} setAudience={setAudience} />
             </div>
             <div class="mb-4">
                 <label for="imageUrl" class="block text-sm font-medium text-gray-700 mb-2">
@@ -342,7 +215,13 @@ function CampaignForm() {
                     required
                 ></textarea>
             </div>
-            <div className="mb-4">
+            <div class="mb-4">
+                <label for="status" class="flex  text-sm font-medium text-gray-700 mb-2">
+                    Status <Tooltip message='Only campaigns with status "Active" will be displayed to promoters' />
+                </label>
+                <CampaignStatus status={status()} setStatus={setStatus} />
+            </div>
+            <div class="mb-4">
 
 
                 <BiddingSection onSubmit={setPrices} metrics={metrics} />

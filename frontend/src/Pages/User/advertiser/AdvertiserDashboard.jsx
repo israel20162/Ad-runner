@@ -9,7 +9,7 @@ import { Switch, Match, createSignal, Show } from "solid-js";
 import { BiSolidAddToQueue } from 'solid-icons/bi'
 import { IoArrowBackOutline } from 'solid-icons/io'
 import CampaignForm from "./CampaignForm";
-import Dashboard from "./dashboard";
+import Dashboard from "./Dashboard";
 
 
 
